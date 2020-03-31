@@ -22,7 +22,7 @@ namespace NatsClient01
 
             Stopwatch sw = new Stopwatch();
             int msgs = 0;
-            const int messagesCount = 1000000;
+            const int messagesCount = 1000000000;
 
             // Setup an event handler to process incoming messages.
             // An anonymous delegate function is used for brevity.

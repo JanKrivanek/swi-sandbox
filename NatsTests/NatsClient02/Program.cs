@@ -7,7 +7,8 @@ namespace NatsClient02
         static void Main(string[] args)
         {
             //Console.WriteLine("Hello World!");
-            Publisher.Run();
+            //Publisher.Run();
+            SafePublisher.PerfTest();
             Console.WriteLine("Press a key to exit..");
             Console.ReadKey();
         }
