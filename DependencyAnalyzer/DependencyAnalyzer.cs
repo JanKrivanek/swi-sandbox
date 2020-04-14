@@ -12,7 +12,7 @@ namespace DependencyAnalyzer
         private readonly StreamWriter _csv;
         private readonly HashSet<string> _foundMethods = new HashSet<string>();
 
-        public const string CALLING_ASSEMBLY_MANDATORY_NAME_PATTERN = "Solarwinds";
+        public const string CALLING_ASSEMBLY_MANDATORY_NAME_PATTERN = "*Solarwinds*.dll";
         public const string CALLED_ASSEMBLY_MANDATORY_NAME_PATTERN = "Solarwinds";
 
         public DependencyAnalyzer(string csvPath)
@@ -40,8 +40,13 @@ namespace DependencyAnalyzer
         /// Analyses the given assembly (or directory) and spits the result file
         /// </summary>
         /// <param name="assemblyPath"></param>
-        public void Analyze(string assemblyPath)
+        public void Analyze(string assemblyPath, string callingAssemblyPattern)
         {
+            if (string.IsNullOrWhiteSpace(callingAssemblyPattern))
+            {
+                callingAssemblyPattern = CALLING_ASSEMBLY_MANDATORY_NAME_PATTERN;
+            }
+
             _csv.WriteLine(
                 "CallingModule,CalledModule,CalledNamespace,CalledType,CalledFunction,CalledFunctionSignature");
 
@@ -52,7 +57,7 @@ namespace DependencyAnalyzer
             else if (Directory.Exists(assemblyPath))
             {
                 foreach (string file in Directory.EnumerateFiles(assemblyPath,
-                    "*" + CALLING_ASSEMBLY_MANDATORY_NAME_PATTERN + "*.dll", SearchOption.AllDirectories))
+                    callingAssemblyPattern, SearchOption.AllDirectories))
                 {
                     AnalyzeSingle(file);
                 }

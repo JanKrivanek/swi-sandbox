@@ -8,7 +8,7 @@ namespace DependencyAnalyzer
         {
             using (DependencyAnalyzer analyzer = new DependencyAnalyzer("Result.csv"))
             {
-                analyzer.Analyze(args[0]);
+                analyzer.Analyze(args[0], args.Length > 1 ? args[1] : null);
             }
         }
     }

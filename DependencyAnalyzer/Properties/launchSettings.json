@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DependencyAnalyzer": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\src\\interfaces.snmp\\bin\\Debug\" SolarWinds.Interfaces.SNMP*.dll"
+    }
+  }
+}
