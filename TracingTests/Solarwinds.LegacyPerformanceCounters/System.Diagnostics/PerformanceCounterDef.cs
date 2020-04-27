@@ -1,5 +1,9 @@
 namespace System.Diagnostics
 {
+    /// <summary>
+    /// Just a stub; All metrics just redirected to AppOptics
+    /// see <see cref="PerformanceCounter"/> calls for actual redirection functionality
+    /// </summary
     public sealed class PerformanceCounterDef
     {
         public PerformanceCounterDef(string name, string description, PerformanceCounterType type)

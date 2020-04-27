@@ -1,8 +1,14 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace System.Diagnostics
 {
+    /// <summary>
+    /// Just redirects the metrics to AppOptics
+    /// The metrics in AppOptics has the name in forma of <CategoryName>.<CounterName>.<InstanceName> (empty values and extra dots removed)
+    /// Hostname tagging is on by default
+    /// </summary>
     public sealed class PerformanceCounter
     {
         public PerformanceCounter(string name = default, string description = default, PerformanceCounterType type = default)
@@ -63,7 +69,7 @@ namespace System.Diagnostics
         private string _appOpticsIdentifier;
         private void RebuildAppOpticsIdentifier()
         {
-            string id = $"{_categoryName}.{_categoryName}.{_instanceName}";
+            string id = $"{_categoryName}.{_counterName}.{_instanceName}";
             id = id.Replace("..", ".");
             if (id.StartsWith("."))
             {
@@ -71,6 +77,9 @@ namespace System.Diagnostics
             }
             _appOpticsIdentifier = id;
         }
+
+        //TBD
+        //public CounterSample NextSample()  { }
 
         public void RemoveInstance()
         {
@@ -96,14 +105,27 @@ namespace System.Diagnostics
 
         public void Decrement()
         {
+            //Carefull! We cannot use AppOptics.Instrumentation.Trace.Increment
+            // despite having signed count argument the negative values underflows
             Interlocked.Decrement(ref _rawValue);
             ReportMetric();
         }
 
+        private static readonly Dictionary<string, string> _processIdIdentification = new Dictionary<string, string>()
+        {
+            { 
+                "PID",
+                Process.GetCurrentProcess().Id.ToString()
+            }
+        };
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ReportMetric()
         {
-            AppOptics.Instrumentation.Trace.SummaryMetric(_appOpticsIdentifier, _rawValue, 1, true);
+            AppOptics.Instrumentation.Trace.SummaryMetric(_appOpticsIdentifier, _rawValue, 1, true,
+                //this is needed to be able to properly handle PerformanceCounterInstanceLifetime.Global vs
+                //PerformanceCounterInstanceLifetime.Process
+                _processIdIdentification);
         }
 
     }

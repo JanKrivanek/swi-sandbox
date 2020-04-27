@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace System.Diagnostics
 {
+    /// <summary>
+    /// Just a stub; All metrics just redirected to AppOptics
+    /// see <see cref="PerformanceCounter"/> calls for actual redirection functionality
+    /// </summary
     public class PerformanceCounterCategory
     {
         public static IEnumerable<PerformanceCounterCategory> GetCategories() =>

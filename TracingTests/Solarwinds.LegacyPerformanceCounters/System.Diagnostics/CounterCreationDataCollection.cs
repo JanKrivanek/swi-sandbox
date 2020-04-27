@@ -2,6 +2,10 @@ using System.Collections.Generic;
 
 namespace System.Diagnostics
 {
+    /// <summary>
+    /// Just a stub; All metrics just redirected to AppOptics
+    /// see <see cref="PerformanceCounter"/> calls for actual redirection functionality
+    /// </summary>
     public sealed class CounterCreationDataCollection
     {
         private readonly List<CounterCreationData> _data = new List<CounterCreationData>();
