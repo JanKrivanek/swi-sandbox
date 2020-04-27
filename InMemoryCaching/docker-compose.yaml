@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  #to run multiple instances: docker-compose up --scale cache_consumer=3
+  cache_consumer:
+    build: .
+    depends_on:
+      - redis
+    links:
+      - "redis:sharedCache"
+
+  redis:
+    image: redis:4.0.5-alpine
+    #image: "redis:alpine"
+    #image: dockerhub.solarwinds.com/slingshot/mssql
+    hostname: sharedCache
+    ports:
+        - "6379:6379"

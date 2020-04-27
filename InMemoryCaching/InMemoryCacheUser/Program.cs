@@ -18,7 +18,7 @@ namespace InMemoryCacheUser
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDistributedRedisCache(options =>
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = "sharedCache:6379";
                 options.InstanceName = "redisInstance";
             });
             //OR

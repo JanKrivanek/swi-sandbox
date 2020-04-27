@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Runtime.Serialization;
 using SolarWinds.InMemoryCachingUtils;
 
@@ -20,6 +21,9 @@ namespace InMemoryCacheUser
     public class RandomSamplesGenerator : IRandomSamplesGenerator
     {
         private readonly IObjectCache<CacheEntry> _cache;
+
+        private static readonly string _prefix = Dns.GetHostName() + "-" +
+                                                 Process.GetCurrentProcess().Id;
 
         public RandomSamplesGenerator(IObjectCache<CacheEntry> cache)
         {
@@ -46,7 +50,7 @@ namespace InMemoryCacheUser
             if (entry == null)
             {
                 string value =
-                    $"{Process.GetCurrentProcess().Id}-{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffffff")}";
+                    $"{_prefix}-{DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffffff")}";
                 entry = new CacheEntry(){Value = value};
 
                 Console.WriteLine($"{key} - NOT found in cache. Value: {entry.Value}");
