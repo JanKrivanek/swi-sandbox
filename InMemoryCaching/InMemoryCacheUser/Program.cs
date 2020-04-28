@@ -33,6 +33,8 @@ namespace InMemoryCacheUser
 
             serviceCollection.AddScoped<IObjectCache<CacheEntry>, ObjectCacheFromDistributedWithFallbackToLocal<CacheEntry>>();
             serviceCollection.AddScoped<IRandomSamplesGenerator, RandomSamplesGenerator>();
+            serviceCollection
+                .AddSingleton<ISerializer<CacheEntry>, SWDataContractSerializer<CacheEntry>>();
             var container = serviceCollection.BuildServiceProvider();
 
             var serviceScopeFactory = container.GetRequiredService<IServiceScopeFactory>();
