@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.Redis;
@@ -16,13 +18,30 @@ namespace InMemoryCacheUser
         static void Main(string[] args)
         {
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddDistributedRedisCache(options =>
+
+            //serviceCollection.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = "sharedCache:6379";
+            //    options.InstanceName = "redisInstance";
+            //});
+            //OR
+            //serviceCollection.AddDistributedMemoryCache();
+
+            //MS DI doesn't support decorator pattern :-/
+            // So we need to do this super ugly way :-// (concrete types, new in injection etc.)
+            //To solve we can e.g. use Scrutor and then simply
+            //serviceCollection.Decorate<IDistributedCache, MultiTenantDistributedCache>
+            serviceCollection.AddOptions();
+            serviceCollection.Configure((Action<RedisCacheOptions>) (options =>
             {
                 options.Configuration = "sharedCache:6379";
                 options.InstanceName = "redisInstance";
-            });
-            //OR
-            //serviceCollection.AddDistributedMemoryCache();
+            }));
+            serviceCollection.AddScoped<RedisCache>();
+
+            //serviceCollection.AddOptions();
+            //serviceCollection.AddScoped<MemoryDistributedCache>();
+
             //OR
             //serviceCollection.AddMemoryCache()
 
@@ -30,6 +49,13 @@ namespace InMemoryCacheUser
             {
                 opt.AddConsole(copt => { copt.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fffffff"; });
             });
+
+
+            serviceCollection.AddScoped<ITenantContext, TentantContext>();
+
+            serviceCollection.AddScoped<IDistributedCache>(provider =>
+                new MultiTenantDistributedCache(provider.GetRequiredService<ITenantContext>(),
+                    provider.GetRequiredService<RedisCache>()));
 
             serviceCollection.AddScoped<IObjectCache<CacheEntry>, ObjectCacheFromDistributedWithFallbackToLocal<CacheEntry>>();
             serviceCollection.AddScoped<IRandomSamplesGenerator, RandomSamplesGenerator>();
