@@ -32,6 +32,7 @@ using SolarWinds.UniversalPolling.Components.Snmp.BuilderInstaller;
 using SolarWinds.UniversalPolling.JobDispatcher.Client.InternalApi;
 using SolarWinds.UniversalPolling.MessageBus.InProcMessageBus;
 using SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic;
+using SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.Protobuf;
 using SolarWinds.UniversalPolling.Prototyping.Tests.Utils;
 using SolarWinds.UniversalPolling.PublicInterfaces;
 using SolarWinds.UniversalPolling.ResultsHandler.Client.ClientApi;
@@ -95,7 +96,7 @@ namespace SolarWinds.UniversalPolling.Prototyping.Tests
             builder.MessageBus().UseInProcMessageBus();
             builder.Modules().AddCallbackResultsHandler(Callback);
 
-            var monitoringPlugin = new MySampleHwhMonitoringLogic();
+            var monitoringPlugin = new ViptelaCpuMonitoringLogic();
             builder.Modules().AddJobDispatcher()
                    .AddCsharpLogicExecutor(config =>
                    {
@@ -132,8 +133,6 @@ namespace SolarWinds.UniversalPolling.Prototyping.Tests
             await api.RunPluginTask(request);
 
             await Task.Delay(200);
-
-            monitoringPlugin.Executed.Should().BeTrue();
         }
 
 
@@ -228,9 +227,15 @@ namespace SolarWinds.UniversalPolling.Prototyping.Tests
 
             await api.RunPluginTask(request);
 
-            await Task.Delay(20000);
+            await Task.Delay(500);
 
-            monitoringPlugin.Executed.Should().BeTrue();
+            capturedResults.Should().NotBeNull();
+
+            var datapoint = MultiCoreCpuLoadDataPoint.Parser.ParseFrom(capturedResults);
+
+            datapoint.IsError.Should().BeFalse();
+            datapoint.CpuLoadPerIndex.Count.Should().Be(1);
+            datapoint.CpuLoadPerIndex[0].Should().BeGreaterOrEqualTo(1);
         }
     }
 }

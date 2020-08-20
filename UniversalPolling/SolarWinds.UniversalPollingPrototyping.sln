@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.UniversalPolling.Prototyping.Tests", "Src\SolarWinds.UniversalPolling.Prototyping.Tests\SolarWinds.UniversalPolling.Prototyping.Tests.csproj", "{DE573466-CEE7-44F2-8A3B-1DEC54F92BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic", "Src\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.csproj", "{2362FCD3-772A-4185-B1D4-E21B8CE60915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic", "Src\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.csproj", "{2362FCD3-772A-4185-B1D4-E21B8CE60915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory", "Src\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory.csproj", "{657EC175-62A0-4102-835C-3B7E6AF0412B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory", "Src\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory.csproj", "{657EC175-62A0-4102-835C-3B7E6AF0412B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

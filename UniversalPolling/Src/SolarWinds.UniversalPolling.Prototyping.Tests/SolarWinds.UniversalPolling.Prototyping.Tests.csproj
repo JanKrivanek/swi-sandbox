@@ -8,13 +8,17 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.XUnit" Version="2.0.4" />
-    <PackageReference Include="SolarWinds.UniversalPolling" Version="1.0.16" />
+    <PackageReference Include="SolarWinds.UniversalPolling" Version="1.0.17" />
     <PackageReference Include="SolarWinds.UniversalPolling.Abstractions" Version="1.0.17" />
     <PackageReference Include="SolarWinds.UniversalPolling.Client" Version="1.0.8" />
     <PackageReference Include="SolarWinds.UniversalPolling.Components.JobDispatcher.Contract" Version="1.0.4" />
@@ -32,7 +36,7 @@
     <PackageReference Include="SolarWinds.UniversalPolling.Client" Version="1.0.8" />
     <PackageReference Include="SolarWinds.UniversalPolling.Client.ApiLibrary" Version="1.0.6" />
 
-    <PackageReference Include="SolarWinds.UniversalPolling.Components.Snmp" Version="1.0.6" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.Snmp" Version="1.0.7" />
     <PackageReference Include="SolarWinds.UniversalPolling.Components.Snmp.Contract" Version="1.0.6" />
 
     <PackageReference Include="SolarWinds.UniversalPolling.Components.Echo" Version="1.0.0" />
@@ -50,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.csproj" />
+    <!--<ProjectReference Include="..\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.csproj" />-->
     <ProjectReference Include="..\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory.csproj" />
   </ItemGroup>
 

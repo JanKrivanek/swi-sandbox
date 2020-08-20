@@ -15,18 +15,11 @@ namespace SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic
 {
     public class ViptelaCpuMonitoringLogic : IMonitoringPlugin
     {
-        public bool Executed { get; set; }
         private const string _cpu_oid = "1.3.6.1.4.1.41916.11.1.14.0";
 
         public async Task Execute(IMonitoringFramework monitoringFramework, CancellationToken cancellationToken)
         {
-            Executed = true;
-
             ResultsHandlerClient resultHandler = monitoringFramework.GetResultsHandlerClient();
-
-            var echo = monitoringFramework.GetEchoClient();
-            var rsp = await echo.SendEcho(new EchoRequest() {Text = "aaadd"});
-            
 
             MultiCoreCpuLoadDataPoint result;
             try
@@ -46,7 +39,7 @@ namespace SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic
 
             await resultHandler.SendResults(new SendResultsRequest()
                 {
-                    Results = ByteString.Empty //result.ToByteString()
+                    Results = result.ToByteString()
                 })
                 .ConfigureAwait(false);
         }
