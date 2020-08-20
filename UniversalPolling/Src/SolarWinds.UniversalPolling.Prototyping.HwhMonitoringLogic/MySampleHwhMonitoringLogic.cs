@@ -11,14 +11,8 @@ namespace SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic
 {
     public class MySampleHwhMonitoringLogic : IMonitoringPlugin
     {
-        public bool Executed { get; set; }
-
         public async Task Execute(IMonitoringFramework monitoringFramework, CancellationToken cancellationToken)
         {
-            Executed = true;
-
-            //throw new Exception("ssssssssssssssss");
-
             var resultHandler = monitoringFramework.GetResultsHandlerClient();
 
             MyHwhDataPoint data = new MyHwhDataPoint()

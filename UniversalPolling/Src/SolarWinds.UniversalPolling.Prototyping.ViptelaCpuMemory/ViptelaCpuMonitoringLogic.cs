@@ -55,16 +55,14 @@ namespace SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic
             MultiCoreCpuLoadDataPoint result = new MultiCoreCpuLoadDataPoint();
 
             result.IsError = response.ResultStatus != ResultStatus.OK;
+            //protobuf would throw on null assignment
+            if (response.ErrorMessage != null) result.ErrorMessage = response.ErrorMessage;
 
             if (response.ResultStatus == ResultStatus.OK)
             {
                 string pollValue = response.Response.Result.Value;
                 int cpuValue = (int)double.Parse(pollValue);
                 result.CpuLoadPerIndex[0] = cpuValue;
-            }
-            else
-            {
-                result.ErrorMessage = response.ErrorMessage;
             }
 
             return result;

@@ -55,7 +55,8 @@ namespace SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic
             BasicMemoryDataPoint result = new BasicMemoryDataPoint();
 
             result.IsError = response.ResultStatus != ResultStatus.OK;
-            result.ErrorMessage = response.ErrorMessage;
+            //protobuf would throw on null assignment
+            if(response.ErrorMessage != null) result.ErrorMessage = response.ErrorMessage;
 
             if (response.ResultStatus == ResultStatus.OK)
             {

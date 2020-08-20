@@ -16,6 +16,7 @@ using SolarWinds.UniversalPolling.Abstractions.Communication;
 using SolarWinds.UniversalPolling.Abstractions.Security;
 using SolarWinds.UniversalPolling.Builder;
 using SolarWinds.UniversalPolling.Client;
+using SolarWinds.UniversalPolling.ClientTestUtils;
 using SolarWinds.UniversalPolling.Components.CallbackResultsHandler.BuilderInstaller;
 using SolarWinds.UniversalPolling.Components.CallbackResultsHandler.Callback;
 using SolarWinds.UniversalPolling.Components.CredentialSynchronizer.BuilderInstaller;
@@ -138,7 +139,7 @@ namespace SolarWinds.UniversalPolling.Prototyping.Tests
 
 
         [Fact]
-        public async Task BuilderTest_ViptelaMemoryMonitoringLogicToApiToResultHandler()
+        public async Task BuilderTest_ViptelaCpuMonitoringLogicToApiToResultHandler()
         {
             byte[] capturedResults = null;
             List<ResultHeader> capturedHeaders = null;
@@ -236,6 +237,50 @@ namespace SolarWinds.UniversalPolling.Prototyping.Tests
             datapoint.IsError.Should().BeFalse();
             datapoint.CpuLoadPerIndex.Count.Should().Be(1);
             datapoint.CpuLoadPerIndex[0].Should().BeGreaterOrEqualTo(1);
+        }
+
+        [Fact]
+        public async Task BuilderTest_ViptelaMemoryMonitoringLogicToApiToResultHandler_SimplerVersion()
+        {
+            var plugin = new ViptelaMemoryMonitoringLogic();
+
+            byte[] capturedBytes = null;
+
+            var sutBuilder = new MonitoringFrameworkBuilder();
+            sutBuilder.AddLogger(LoggerHelper.CreateLoggerFactory(testOutputHelper));
+            sutBuilder.AddDevice()
+                .AddHostname("10.199.2.109")
+                .AddSnmpV2Context(new SnmpV2ConnectionContext
+                {
+                    ConnectionProfile = new SnmpConnectionProfile
+                    {
+                        AgentPort = 161,
+                        InterQueryDelayInMillisecond = 10
+                    },
+                    Credentials = new SnmpCredentialsV2
+                    {
+                        Community = "public"
+                    }
+                });
+            sutBuilder.AddResultHandlerAction((results, headers) =>
+            {
+                capturedBytes = results;
+            });
+            sutBuilder.AddModules().AddSnmp();//.AddEcho();
+
+            using MonitoringFrameworkSut sut = sutBuilder.CreateSut();
+
+            await plugin.Execute(sut.MonitoringFramework, new CancellationToken());
+
+            capturedBytes.Should().NotBeNull();
+
+            var res = Encoding.UTF8.GetString(capturedBytes);
+
+            var datapoint = BasicMemoryDataPoint.Parser.ParseFrom(capturedBytes);
+
+            datapoint.IsError.Should().BeFalse();
+            datapoint.TotalMemory.Should().BeGreaterOrEqualTo(1000);
+            datapoint.UsedMemory.Should().BeGreaterOrEqualTo(1000);
         }
     }
 }
