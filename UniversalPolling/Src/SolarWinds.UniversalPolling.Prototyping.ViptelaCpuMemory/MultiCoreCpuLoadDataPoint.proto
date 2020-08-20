@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+
+package SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.Protobuf;
+
+message MultiCoreCpuLoadDataPoint{
+	map<int32, int32> CpuLoadPerIndex = 1;
+	bool IsError = 2;
+	string ErrorMessage = 3;
+}

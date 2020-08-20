@@ -1,0 +1,10 @@
+﻿syntax = "proto3";
+
+package SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.Protobuf;
+
+message BasicMemoryDataPoint{
+	double TotalMemory = 1;
+	double UsedMemory = 2;
+	bool IsError = 3;
+	string ErrorMessage = 4;
+}

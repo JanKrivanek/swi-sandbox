@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.XUnit" Version="2.0.4" />
+    <PackageReference Include="SolarWinds.UniversalPolling" Version="1.0.16" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Abstractions" Version="1.0.17" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Client" Version="1.0.8" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.JobDispatcher.Contract" Version="1.0.4" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.JobDispatcher" Version="1.0.3" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.CallbackResultsHandler" Version="1.0.3" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.ResultsHandler.Contract" Version="1.0.1" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.CsharpLogicExecutor" Version="1.0.4" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.CsharpLogicExecutor.Contract" Version="1.0.1" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.CredentialSynchronizer" Version="1.0.1" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.IpResolver" Version="1.0.0" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Client" Version="1.0.8" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Client.ApiLibrary" Version="1.0.6" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.Snmp" Version="1.0.6" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.Snmp.Contract" Version="1.0.6" />
+
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.Echo" Version="1.0.0" />
+    <PackageReference Include="SolarWinds.UniversalPolling.Components.Echo.Contract" Version="1.0.0" />
+
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="1.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic\SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.csproj" />
+    <ProjectReference Include="..\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory\SolarWinds.UniversalPolling.Prototyping.ViptelaCpuMemory.csproj" />
+  </ItemGroup>
+
+
+</Project>

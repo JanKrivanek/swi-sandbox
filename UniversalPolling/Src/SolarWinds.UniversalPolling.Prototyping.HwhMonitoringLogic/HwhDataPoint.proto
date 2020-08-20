@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+
+package SolarWinds.UniversalPolling.Prototyping.HwhMonitoringLogic.Protobuf;
+
+message MyHwhDataPoint{
+	int32 ValueInt = 1;
+	string ValueStr = 2;
+}
