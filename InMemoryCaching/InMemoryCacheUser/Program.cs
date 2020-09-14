@@ -19,6 +19,9 @@ namespace InMemoryCacheUser
 
         static void Main(string[] args)
         {
+            new RandomSamplesGenerator(null).RunTest();
+
+
             var serviceCollection = new ServiceCollection();
 
             //serviceCollection.AddDistributedRedisCache(options =>
