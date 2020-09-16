@@ -7,14 +7,24 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SharedCommunication.RateLimiter;
 
 namespace SahredMemoryUser
 {
+
+    
+
     class Program
     {
         static void Main(string[] args)
         {
-            new MMFTests().Run();
+
+            TestBench tb = new TestBench();
+            tb.RunTest();
+
+            //new MMFTests().Run();
+
+            //new TestRate().RunTest();
 
             //new Test().Run();
             //new Test().Run();

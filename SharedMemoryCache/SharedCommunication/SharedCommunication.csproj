@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CC27A62A-6DE5-476F-99E1-60166F5954BB}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>SahredMemoryUser</RootNamespace>
-    <AssemblyName>SahredMemoryUser</AssemblyName>
+    <ProjectGuid>{BAB245C5-AA41-415B-8C0F-C71C012B897D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharedCommunication</RootNamespace>
+    <AssemblyName>SharedCommunication</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,18 +24,17 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,22 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrossProcessRateLimiter.cs" />
-    <Compile Include="MMFTests.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="RateLimiter\CrossProcessRateLimiterFactory.cs" />
+    <Compile Include="RateLimiter\TestBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="RateLimiter\IDateTime.cs" />
+    <Compile Include="RateLimiter\IRateLimiterDataAccessor.cs" />
+    <Compile Include="RateLimiter\PlatformDateTime.cs" />
+    <Compile Include="RateLimiter\RateLimiterSharedMemoryAccessor.cs" />
+    <Compile Include="RateLimiter\RingMemoryBufferRateLimiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedCommunication.Contracts\SharedCommunication.Contracts.csproj">
       <Project>{3a04c605-fad2-4ba0-a010-e166b1727b78}</Project>
       <Name>SharedCommunication.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharedCommunication\SharedCommunication.csproj">
-      <Project>{bab245c5-aa41-415b-8c0f-c71c012b897d}</Project>
-      <Name>SharedCommunication</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
