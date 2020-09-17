@@ -4,7 +4,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using SharedCommunication.Contracts.RateLimiter;
 
 namespace SharedCommunication.RateLimiter
 {
@@ -13,7 +15,8 @@ namespace SharedCommunication.RateLimiter
     {
         public void RunTest()
         {
-            string id = "testRateLimiter";
+            string apiKey = "15151v2cv1"; //+org id
+            string id = apiKey;//"https://meraki123/api";
 
             CrossProcessRateLimiterFactory f = new CrossProcessRateLimiterFactory(new PlatformDateTime());
 
@@ -30,23 +33,6 @@ namespace SharedCommunication.RateLimiter
                     Console.WriteLine($"{DateTime.UtcNow.ToString("dd-MM-ss.fffffff")} worker [{workerId}] finished call {callId}. Success: {canRun}");
                 }
             });
-
-            //RateLimiterSharedMemoryAccessor ma = new RateLimiterSharedMemoryAccessor("fdffd", 4, 20);
-
-            //bool enter1 = ma.TryEnterSynchronizedRegion();
-            //bool enter2 = ma.TryEnterSynchronizedRegion();
-
-            //for (int i = 10; i < 20; i++)
-            //{
-            //    long o = ma.OldestTimestampTicks;
-            //    long c = ma.CurrentTimestampTicks;
-            //    ma.CurrentTimestampTicks = i;
-            //}
-
-            //ma.ExitSynchronizedRegion();
-
-            //bool enter3 = ma.TryEnterSynchronizedRegion();
-            //bool enter4 = ma.TryEnterSynchronizedRegion();
         }
     }
 }

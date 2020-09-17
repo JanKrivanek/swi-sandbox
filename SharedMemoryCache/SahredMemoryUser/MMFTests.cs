@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
@@ -9,6 +10,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SharedCommunication.RateLimiter;
 
 namespace SahredMemoryUser
 {
@@ -44,8 +46,8 @@ namespace SahredMemoryUser
     public interface ISharedMemorySegment
     {
         DateTime LastChangedUtc { get; }
-        long ContentSize { get; }
-        long Capacity { get; }
+        //long ContentSize { get; }
+        //long Capacity { get; }
         T ReadData<T>();
         void WriteData<T>(T data);
         byte[] ReadBytes();
@@ -202,175 +204,215 @@ namespace SahredMemoryUser
         }
     }
 
-
-    public class SharedMemorySegmentV1 : ISharedMemorySegment
+    public class SynchronizedSharedMemorySegment : ISharedMemorySegment
     {
-        private const long _STAMP_OFFSET = 0;
-        private const long _SIZE_OFFSET = _STAMP_OFFSET + sizeof(long);
-        private const long _CAPACITY_OFFSET = _SIZE_OFFSET + sizeof(long);
-        private const long _CONTENT_OFFSET = _CAPACITY_OFFSET + sizeof(long);
+        private readonly ISharedMemorySegment _memorySegment;
+        private readonly IMutex _mutex;
 
-
-        //need to GC root this as view accessor doesn't take full ownership
-        private MemoryMappedFile _mmf;
-        private MemoryMappedViewAccessor _memoryAccessor;
-        private MemoryMappedViewStream _memoryStream;
-
-        private readonly string _segmentName;
-
-        public SharedMemorySegmentV1(string segmentName)
+        public SynchronizedSharedMemorySegment(ISharedMemorySegment memorySegment, IMutex mutex)
         {
-            //TODO: we should create it in global namespace; but for non-admin processes this
-            // doesn't fail but rather blocks until somebody else creates the segment
-            // So we need to check the privileges first
-            _segmentName = /*@"Global\" +*/segmentName;
+            _memorySegment = memorySegment;
+            _mutex = mutex;
         }
 
+        public DateTime LastChangedUtc => _memorySegment.LastChangedUtc;
 
-        public DateTime LastChangedUtc => new DateTime(_memoryAccessor.ReadInt64(_STAMP_OFFSET), DateTimeKind.Utc);
+        private T ExecuteLocked<T>(Func<T> func)
+        {
+            using (_mutex.Lock())
+            {
+                return func();
+            }
+        }
 
-        public long ContentSize => _memoryAccessor.ReadInt64(_SIZE_OFFSET);
-        public long Capacity => _memoryAccessor.ReadInt64(_CAPACITY_OFFSET);
+        private void ExecuteLocked(Action action)
+        {
+            ExecuteLocked(() =>
+            {
+                action();
+                return true;
+            });
+        }
 
         public T ReadData<T>()
         {
-            var ds = new DataContractSerializer(typeof(T));
-            return (T) ds.ReadObject(_memoryStream);
+            return ExecuteLocked(_memorySegment.ReadData<T>);
         }
 
         public void WriteData<T>(T data)
         {
-            var ds = new DataContractSerializer(typeof(T));
-            MemoryStream ms = new MemoryStream();
-            ds.WriteObject(ms, data);
-            byte[] bytes = ms.ToArray();
-            this.WriteBytes(bytes);
+            ExecuteLocked(() => _memorySegment.WriteData<T>(data));
         }
 
         public byte[] ReadBytes()
         {
-            byte[] data = new byte[ContentSize];
-            MemoryStream ms = new MemoryStream(data);
-            _memoryStream.CopyTo(ms);
-            return data;
+            return ExecuteLocked(_memorySegment.ReadBytes);
         }
 
         public void WriteBytes(byte[] bytes)
         {
-            //if we have too small or too big segment
-            if (bytes.Length > this.Capacity || GetPaddedSize(bytes.Length) < this.Capacity)
-            {
-                ReserveMemorySegment(GetPaddedSize(bytes.Length));
-            }
-
-            _memoryStream.Write(bytes, 0, bytes.Length);
-            _memoryAccessor.Write(_SIZE_OFFSET, (long)bytes.Length);
-            _memoryAccessor.Write(_STAMP_OFFSET, (long)DateTime.UtcNow.Ticks);
-        }
-
-        private void ReserveMemorySegment(int capacity)
-        {
-            _mmf?.Dispose();
-            _memoryAccessor?.Dispose();
-            _memoryStream?.Dispose();
-
-            var security = new MemoryMappedFileSecurity();
-            security.AddAccessRule(new AccessRule<MemoryMappedFileRights>(
-                "everyone",
-                MemoryMappedFileRights.ReadWrite,
-                AccessControlType.Allow));
-
-            _mmf = MemoryMappedFile.CreateOrOpen(_segmentName, capacity + _CONTENT_OFFSET, MemoryMappedFileAccess.ReadWrite,
-                MemoryMappedFileOptions.DelayAllocatePages, HandleInheritability.None);
-            _memoryAccessor = _mmf.CreateViewAccessor(0, _CONTENT_OFFSET);
-            _memoryStream = _mmf.CreateViewStream(_CONTENT_OFFSET, capacity);
-
-            _memoryAccessor.Write(_CAPACITY_OFFSET, (long)capacity);
-        }
-
-        private static int CeilingToPowerOfTwo(int v)
-        {
-            //source: https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-            v--;
-            v |= v >> 1;
-            v |= v >> 2;
-            v |= v >> 4;
-            v |= v >> 8;
-            v |= v >> 16;
-            v++;
-            return v;
-        }
-
-        private static int GetPaddedSize(int size)
-        {
-            const int megabyte = 1024 * 1024; //1 MB
-            const int doublingThreshold = 20 * megabyte; //20 MBs
-
-            int paddedSize = size < doublingThreshold ? CeilingToPowerOfTwo(size) : (size + megabyte);
-
-            //we are creating segments with metadata - so want to align padding accordingly
-            paddedSize -= (int)_CONTENT_OFFSET;
-
-            return Math.Max(size, paddedSize);
+            ExecuteLocked(() => _memorySegment.WriteBytes(bytes));
         }
     }
 
-    public class MMFWrapper
+    public interface IDataCache<T>
     {
-        //private ToBSenderUnit[] _senderUnits = new ToBSenderUnit[Symbol.ValuesCount];
-        private MemoryMappedViewAccessor _memoryAccessor;
-        //need to GC root this as view accessor doesn't take full ownership
-        private MemoryMappedFile _mmf;
-        public long currentCapacity;
-        private EventWaitHandle _sharedSignalEvent;
+        Task<T> GetData(Func<Task<T>> asyncDataFactory, CancellationToken token = default);
+    }
 
-        private readonly string _mmfName;
+    public class DataCacheSettings
+    {
+        public TimeSpan Ttl { get; set; }
+        public string CacheName { get; set; }
+    }
 
-        public MMFWrapper(string name)
+    public class AsyncSemaphore
+    {
+        private readonly Semaphore _sp;
+
+        public AsyncSemaphore(string name)
         {
-            _mmfName = /*@"Global\" +*/ name;
+            bool createdNew;
+            _sp = new Semaphore(1, 1, name, out createdNew);
 
         }
 
-        public void TestReadWrite(byte b)
+        private class WaitInfo
         {
-            byte was = _memoryAccessor.ReadByte(currentCapacity - 1);
-            _memoryAccessor.Write(currentCapacity - 1, (byte)b);
+            public IDisposable Handle { get; set; }
         }
 
-        public void Dispose()
+        public Task WaitAsync(CancellationToken token = default)
         {
-            _mmf?.Dispose();
-            _memoryAccessor?.Dispose();
-        }
-
-        public void CreateOrOpen()
-        {
-            _mmf?.Dispose();
-            _memoryAccessor?.Dispose();
-
-            var security = new MemoryMappedFileSecurity();
-            security.AddAccessRule(new AccessRule<MemoryMappedFileRights>(
-                "everyone",
-                MemoryMappedFileRights.ReadWrite,
-                AccessControlType.Allow));
-
-            _mmf = MemoryMappedFile.CreateOrOpen(_mmfName, currentCapacity, MemoryMappedFileAccess.ReadWrite,
-                MemoryMappedFileOptions.DelayAllocatePages, HandleInheritability.None);
-            long hdl = _mmf.SafeMemoryMappedFileHandle.DangerousGetHandle().ToInt64();
-            TrashMemory();
-            _memoryAccessor = _mmf.CreateViewAccessor(0, currentCapacity, MemoryMappedFileAccess.ReadWrite);
-        }
-
-        private void TrashMemory()
-        {
-            for (int i = 0; i < 10; i++)
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            if (token.IsCancellationRequested)
             {
-                int sz = 65000000;
-                var mmf = MemoryMappedFile.CreateOrOpen("aaa" + i, sz, MemoryMappedFileAccess.ReadWrite,
-                    MemoryMappedFileOptions.DelayAllocatePages, HandleInheritability.None);
-                var view = mmf.CreateViewAccessor(0,sz);
-                view.Write(sz-1, (byte)5);
+                tcs.TrySetCanceled();
+                return tcs.Task;
+            }
+            WaitInfo waitInfo = new WaitInfo();
+
+            var reg = ThreadPool.RegisterWaitForSingleObject(_sp, (state, timedout) =>
+            {
+                tcs.TrySetResult(true);
+                waitInfo.Handle?.Dispose();
+            }, null, Timeout.InfiniteTimeSpan, true);
+            //here is a small space for race condition - token getting cancelled right after the task getting registered and finished
+            // and before registering the cancellation token. In such a case, the token would remain registered and upon cancellation (if any)
+            // the unregistration of wait handle from TP would not succeed anyway - as TP registration is no more valid
+            waitInfo.Handle = token.Register(() =>
+            {
+                reg.Unregister(null);
+                tcs.TrySetCanceled();
+            });
+            return tcs.Task;
+        }
+
+        public void Release()
+        {
+            _sp.Release();
+        }
+    }
+
+    public class DataCache<T> : IDataCache<T>
+    {
+        //MMF and mutex can be created new with same name and would correctly use same resources
+        // however the SemaphoreSlim cannot be created from handle - so we need to make sure to create single
+        private static ConcurrentDictionary<string, IDataCache<T>> _instances = new ConcurrentDictionary<string, IDataCache<T>>();
+        private readonly SemaphoreSlim _semaphoreSlim;
+        private readonly ISharedMemorySegment _memorySegment;
+        private readonly TimeSpan _ttl;
+        private readonly IDateTime _dateTime;
+
+        public static IDataCache<T> Create(string cacheName, TimeSpan ttl, IDateTime dateTime,
+            IMutexFactory mutexFactory)
+        {
+            return _instances.GetOrAdd(cacheName, name => new DataCache<T>(name, ttl, dateTime, mutexFactory));
+        }
+
+        public static IDataCache<T> Create(DataCacheSettings settings, IDateTime dateTime, IMutexFactory mutexFactory)
+        {
+            return Create(settings.CacheName, settings.Ttl, dateTime, mutexFactory);
+        }
+
+        private DataCache(string cacheName, TimeSpan ttl, IDateTime dateTime, IMutexFactory mutexFactory)
+        {
+            //TODO: to be added to run properly accross sessions
+            //cacheName = @"Global\" + cacheName;
+
+            _semaphoreSlim = new SemaphoreSlim(1,1);
+            IMutex mutex = mutexFactory.Create(cacheName + "_MTX");
+            _memorySegment = new SynchronizedSharedMemorySegment(new SharedMemorySegment(cacheName + "_MMF"), mutex);
+            _ttl = ttl;
+            _dateTime = dateTime;
+        }
+
+        public async Task<T> GetData(Func<Task<T>> asyncDataFactory, CancellationToken token = default)
+        {
+            await _semaphoreSlim.WaitAsync(token);
+            //if token cancelled OperationCanceledException is thrown - so we won't get here
+            try
+            {
+                bool hasData = _memorySegment.LastChangedUtc >= _dateTime.UtcNow - _ttl;
+                T data;
+                if (hasData)
+                {
+                    data = _memorySegment.ReadData<T>();
+                }
+                else
+                {
+                    //this is locked only locally (process), not globally (system) - so this implementation leaves space for
+                    // unnecessary multiple parallel (by multiple processes) creation of data
+                    data = await asyncDataFactory();
+                    _memorySegment.WriteData(data);
+                }
+
+                return data;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
+
+
+        public async Task<T> GetData2(Func<Task<T>> asyncDataFactory, CancellationToken token = default)
+        {
+            
+
+
+            //this would be private field of class
+            IMutex mutex = null;
+
+            await _semaphoreSlim.WaitAsync(token);
+            IDisposable lockContext = null;
+            //if token cancelled OperationCanceledException is thrown - so we won't get here
+            try
+            {
+                //even though we acquire fat lock here for duration of creation of data - we still guard by local
+                // sempahore slim, so majority of time we will 'wait' asynchronously (provided that the caller within
+                // critical section is from same process)
+                lockContext = mutex.Lock();
+                bool hasData = _memorySegment.LastChangedUtc >= _dateTime.UtcNow - _ttl;
+                T data;
+                if (hasData)
+                {
+                    data = _memorySegment.ReadData<T>();
+                }
+                else
+                {
+                    //this is locked only locally (process), not globally (system) - so this implementation leaves space for
+                    // unnecessary multiple parallel (by multiple processes) creation of data
+                    data = await asyncDataFactory();
+                    _memorySegment.WriteData(data);
+                }
+
+                return data;
+            }
+            finally
+            {
+                lockContext?.Dispose();
+                _semaphoreSlim.Release();
             }
         }
     }

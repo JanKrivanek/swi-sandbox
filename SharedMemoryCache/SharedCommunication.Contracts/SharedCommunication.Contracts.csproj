@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCache\IDataCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RateLimiter\ICrossProcessRateLimiterFactory.cs" />
     <Compile Include="RateLimiter\IRateLimiter.cs" />
