@@ -34,6 +34,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="SolarWinds.Coding.Utils, Version=1.4.0.118, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SolarWinds.Coding.Utils.1.4.0.118\lib\net45\SolarWinds.Coding.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SolarWinds.Coding.Utils.Windows, Version=1.4.0.118, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SolarWinds.Coding.Utils.1.4.0.118\lib\net45\SolarWinds.Coding.Utils.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Solarwinds.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=aa802ff51e6c3813, processorArchitecture=MSIL">
+      <HintPath>..\packages\SolarWinds.Logging.10000.5.0.1186\lib\net48\Solarwinds.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -43,6 +61,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="SystemInterface, Version=0.22.0.141, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Interfaces.0.22.0.141\lib\net45\SystemInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="SystemWrapper, Version=0.22.0.141, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\packages\SystemWrapper.Wrappers.0.22.0.141\lib\net45\SystemWrapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MMFTests.cs" />
@@ -51,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedCommunication.Contracts\SharedCommunication.Contracts.csproj">

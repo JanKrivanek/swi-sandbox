@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 namespace SharedCommunication.Contracts.DataCache
 {
     //TTL globally
-    public interface IDataCache<T>
+    // Type constraint used to enforce type whitelist on deserialization of data coming from possible insecure surfaces (shared memory, remoting etc.)
+    public interface IDataCache<T> where T: ICacheEntry
     {
-        Task<T> GetData(string key, Func<Task<T>> asyncDataFactory, CancellationToken token = default);
+        Task<T> GetData(Func<Task<T>> asyncDataFactory, CancellationToken token = default);
     }
 }

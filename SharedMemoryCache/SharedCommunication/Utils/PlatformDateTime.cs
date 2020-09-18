@@ -1,6 +1,7 @@
 ﻿using System;
+using SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.RateLimiter
+namespace SharedCommunication.Utils
 {
     internal class PlatformDateTime : IDateTime
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedCommunication.RateLimiter
+namespace SharedCommunication.Contracts.Utils
 {
     public interface IDateTime
     {
