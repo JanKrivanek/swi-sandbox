@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters;
 using SharedCommunication.Contracts.Utils;
 
 namespace SharedCommunication.Utils
 {
     public class AsyncSemaphore : IAsyncSemaphore
     {
+        //Semaphore doesn't enforce the ownership - so we can release it from different thread than acquiring
+        // so it's perfect candidate for async wrapping.
+        //On the other hand it means that when left abandoned acquired (e.g. process crash), it won't get autoreleased
+        //So we need to make sureit gets released in all execution paths (including exceptional)
         private readonly Semaphore _sp;
 
         public AsyncSemaphore(Semaphore sp)
@@ -44,7 +49,13 @@ namespace SharedCommunication.Utils
 
             var reg = ThreadPool.RegisterWaitForSingleObject(_sp, (state, timedout) =>
             {
-                tcs.TrySetResult(new LockContext(this._sp));
+                IDisposable lockContext = new LockContext(this._sp);
+                if (!tcs.TrySetResult(lockContext))
+                {
+                    //this can happen if we get singalled by threadpool (wait finished), but at the same time the cancellation kicked in
+                    // in this case we need to make sure the lock is released
+                    lockContext.Dispose();
+                }
                 waitInfo.Handle?.Dispose();
             }, null, Timeout.InfiniteTimeSpan, true);
             //here is a small space for race condition - token getting cancelled right after the task getting registered and finished

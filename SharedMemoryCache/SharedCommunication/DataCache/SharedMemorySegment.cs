@@ -182,5 +182,13 @@ namespace SharedCommunication.DataCache
 
             return size < doublingThreshold ? CeilingToPowerOfTwo(size) : (size + megabyte);
         }
+
+        public void Dispose()
+        {
+            _mmf?.Dispose();
+            _memoryAccessor?.Dispose();
+            _contentMmf?.Dispose();
+            _contentMemoryStream?.Dispose();
+        }
     }
 }

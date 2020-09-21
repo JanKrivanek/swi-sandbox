@@ -10,7 +10,7 @@ using SharedCommunication.Contracts.Utils;
 
 namespace SharedCommunication.DataCache
 {
-    public class SingleProcessDataCache<T> : IDisposable, IDataCache<T> where T : ICacheEntry
+    public class SingleProcessDataCache<T> : IDataCache<T> where T : ICacheEntry
     {
         //SemaphoreSlim cannot be created from handle - so we need to make sure to create single
         private static ConcurrentDictionary<string, IDataCache<T>> _instances = new ConcurrentDictionary<string, IDataCache<T>>();

@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,6 +74,12 @@
     <Compile Include="DataCache\ISharedMemorySegment.cs" />
     <Compile Include="DataCache\SharedMemoryDataCache.cs" />
     <Compile Include="DataCache\SingleProcessDataCache.cs" />
+    <Compile Include="DataCache\WCF\PollerDataCacheImpl.cs" />
+    <Compile Include="DataCache\WCF\DataCacheServiceClient.cs" />
+    <Compile Include="DataCache\WCF\DataCacheServiceClientFactory.cs" />
+    <Compile Include="DataCache\WCF\IPollerDataCache.cs" />
+    <Compile Include="DataCache\WCF\PollerDataCacheClient.cs" />
+    <Compile Include="DataCache\WCF\PollerDataCacheService.cs" />
     <Compile Include="RateLimiter\CrossProcessRateLimiterFactory.cs" />
     <Compile Include="RateLimiter\TestBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

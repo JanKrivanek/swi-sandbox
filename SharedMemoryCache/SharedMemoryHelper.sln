@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedCommunication", "Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedCommunication.Contracts", "SharedCommunication.Contracts\SharedCommunication.Contracts.csproj", "{3A04C605-FAD2-4BA0-A010-E166B1727B78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedMemoryProvider", "SharedMemoryProvider\SharedMemoryProvider.csproj", "{36CC4E2F-0F51-4218-A040-42F39A1A6EA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3A04C605-FAD2-4BA0-A010-E166B1727B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A04C605-FAD2-4BA0-A010-E166B1727B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A04C605-FAD2-4BA0-A010-E166B1727B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36CC4E2F-0F51-4218-A040-42F39A1A6EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36CC4E2F-0F51-4218-A040-42F39A1A6EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36CC4E2F-0F51-4218-A040-42F39A1A6EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36CC4E2F-0F51-4218-A040-42F39A1A6EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

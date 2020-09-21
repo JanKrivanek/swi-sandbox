@@ -2,7 +2,7 @@
 
 namespace SharedCommunication.DataCache
 {
-    public interface ISharedMemorySegment
+    public interface ISharedMemorySegment: IDisposable
     {
         DateTime LastChangedUtc { get; }
         //long ContentSize { get; }

@@ -7,7 +7,7 @@ using SharedCommunication.Contracts.Utils;
 
 namespace SharedCommunication.DataCache
 {
-    public class SharedMemoryDataCache<T> : IDisposable, IDataCache<T> where T : ICacheEntry
+    public class SharedMemoryDataCache<T> : IDataCache<T> where T : ICacheEntry
     {
         //Semaphore and memory segments are named - so we are fine recreating them in a same process
         private readonly IAsyncSemaphore _asyncSemaphore;
@@ -54,7 +54,8 @@ namespace SharedCommunication.DataCache
 
         public void Dispose()
         {
-            _asyncSemaphore?.Dispose();
+            _memorySegment.Dispose();
+            _asyncSemaphore.Dispose();
         }
     }
 }
