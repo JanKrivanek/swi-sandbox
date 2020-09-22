@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Castle.DynamicProxy.Generators.Emitters;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.Utils
+namespace SolarWinds.SharedCommunication.Utils
 {
     public class AsyncSemaphore : IAsyncSemaphore
     {

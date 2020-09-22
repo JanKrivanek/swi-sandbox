@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
 
-namespace SharedCommunication.DataCache.WCF
+namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
     internal class PollerDataCacheClient : ClientBase<IPollerDataCache>, IPollerDataCache
     {

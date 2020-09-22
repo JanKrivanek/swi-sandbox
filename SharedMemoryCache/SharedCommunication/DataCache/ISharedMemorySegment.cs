@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharedCommunication.DataCache
+namespace SolarWinds.SharedCommunication.DataCache
 {
     public interface ISharedMemorySegment: IDisposable
     {

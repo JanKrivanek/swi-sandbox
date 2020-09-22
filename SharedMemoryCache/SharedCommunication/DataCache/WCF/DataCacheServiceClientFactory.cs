@@ -1,8 +1,8 @@
 ﻿using System;
-using SharedCommunication.Contracts.DataCache;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.DataCache.WCF
+namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
     public class DataCacheServiceClientFactory<T> where T : CacheEntryBase
     {

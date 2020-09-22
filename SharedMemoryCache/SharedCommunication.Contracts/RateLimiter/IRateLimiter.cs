@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedCommunication.Contracts.RateLimiter
+namespace SolarWinds.SharedCommunication.Contracts.RateLimiter
 {
     public interface IRateLimiter
     {

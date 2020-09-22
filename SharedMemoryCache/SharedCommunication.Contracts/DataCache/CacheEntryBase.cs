@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedCommunication.Contracts.DataCache
+namespace SolarWinds.SharedCommunication.Contracts.DataCache
 {
     [DataContract]
     [KnownType(typeof(SerializedCacheEntry))]

@@ -1,7 +1,7 @@
 ﻿using System;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.Utils
+namespace SolarWinds.SharedCommunication.Utils
 {
     public class PlatformDateTime : IDateTime
     {

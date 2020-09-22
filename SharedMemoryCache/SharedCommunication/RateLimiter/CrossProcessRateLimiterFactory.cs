@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.RateLimiter;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.RateLimiter;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.RateLimiter
+namespace SolarWinds.SharedCommunication.RateLimiter
 {
     public class CrossProcessRateLimiterFactory: ICrossProcessRateLimiterFactory
     {

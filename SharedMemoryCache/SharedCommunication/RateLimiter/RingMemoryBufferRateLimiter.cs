@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.RateLimiter;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.RateLimiter;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.RateLimiter
+namespace SolarWinds.SharedCommunication.RateLimiter
 {
     public class RingMemoryBufferRateLimiter : IRateLimiter
     {

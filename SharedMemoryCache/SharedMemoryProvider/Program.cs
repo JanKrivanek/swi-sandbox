@@ -4,8 +4,8 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using SharedCommunication.DataCache.WCF;
-using SharedCommunication.Utils;
+using SolarWinds.SharedCommunication.DataCache.WCF;
+using SolarWinds.SharedCommunication.Utils;
 
 namespace SharedMemoryProvider
 {

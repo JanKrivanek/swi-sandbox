@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SharedCommunication")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SolarWinds.SharedCommunication")]
+[assembly: AssemblyDescription("x-process caching and rate limiting prototype")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SharedCommunication")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCompany("SolarWinds Worldwide, LLC.")]
+[assembly: AssemblyProduct("SolarWinds.SharedCommunication")]
+[assembly: AssemblyCopyright("Copyright © 1999-2020 SolarWinds Worldwide, LLC. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

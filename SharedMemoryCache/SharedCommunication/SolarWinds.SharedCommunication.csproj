@@ -7,8 +7,8 @@
     <ProjectGuid>{BAB245C5-AA41-415B-8C0F-C71C012B897D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharedCommunication</RootNamespace>
-    <AssemblyName>SharedCommunication</AssemblyName>
+    <RootNamespace>SolarWinds.SharedCommunication</RootNamespace>
+    <AssemblyName>SolarWinds.SharedCommunication</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -91,9 +91,9 @@
     <Compile Include="Utils\AsyncSemaphoreFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedCommunication.Contracts\SharedCommunication.Contracts.csproj">
+    <ProjectReference Include="..\SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">
       <Project>{3a04c605-fad2-4ba0-a010-e166b1727b78}</Project>
-      <Name>SharedCommunication.Contracts</Name>
+      <Name>SolarWinds.SharedCommunication.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

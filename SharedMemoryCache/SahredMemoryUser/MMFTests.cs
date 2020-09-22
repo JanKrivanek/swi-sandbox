@@ -11,8 +11,8 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.Utils;
-using SharedCommunication.RateLimiter;
+using SolarWinds.SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.RateLimiter;
 
 namespace SahredMemoryUser
 {

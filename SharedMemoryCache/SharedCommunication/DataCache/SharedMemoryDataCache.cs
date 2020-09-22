@@ -2,10 +2,10 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.DataCache;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.DataCache
+namespace SolarWinds.SharedCommunication.DataCache
 {
     public class SharedMemoryDataCache<T> : IDataCache<T> where T : ICacheEntry
     {

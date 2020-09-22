@@ -1,4 +1,4 @@
-﻿namespace SharedCommunication.Contracts.Utils
+﻿namespace SolarWinds.SharedCommunication.Contracts.Utils
 {
     public interface IAsyncSemaphoreFactory
     {

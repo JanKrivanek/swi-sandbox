@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
-using SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
 
-namespace SharedCommunication.DataCache.WCF
+namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
     [ServiceContract(Name = "PollerDataCache", Namespace = "http://schemas.solarwinds.com/2020/09/jobengine")]
     internal interface IPollerDataCache

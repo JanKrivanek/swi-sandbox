@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.DataCache.WCF
+namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
         IncludeExceptionDetailInFaults = true,

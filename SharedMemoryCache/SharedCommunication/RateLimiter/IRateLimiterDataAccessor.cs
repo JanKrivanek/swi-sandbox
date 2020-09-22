@@ -1,4 +1,4 @@
-﻿namespace SharedCommunication.RateLimiter
+﻿namespace SolarWinds.SharedCommunication.RateLimiter
 {
     public interface IRateLimiterDataAccessor
     {

@@ -3,10 +3,10 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.DataCache;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.DataCache.WCF
+namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
     internal class DataCacheServiceClient<T> : IDataCache<T> where T : ICacheEntry
     {

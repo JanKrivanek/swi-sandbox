@@ -9,11 +9,11 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.DataCache;
-using SharedCommunication.Contracts.Utils;
-using SharedCommunication.DataCache.WCF;
-using SharedCommunication.RateLimiter;
-using SharedCommunication.Utils;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.DataCache.WCF;
+using SolarWinds.SharedCommunication.RateLimiter;
+using SolarWinds.SharedCommunication.Utils;
 using SolarWinds.Coding.Utils.Logger;
 using SolarWinds.Coding.Utils.Windows.Logger;
 

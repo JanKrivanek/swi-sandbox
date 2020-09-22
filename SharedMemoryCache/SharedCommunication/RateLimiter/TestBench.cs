@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.RateLimiter;
-using SharedCommunication.Utils;
+using SolarWinds.SharedCommunication.Contracts.RateLimiter;
 using System.Security.Cryptography;
+using SolarWinds.SharedCommunication.Utils;
 
-namespace SharedCommunication.RateLimiter
+namespace SolarWinds.SharedCommunication.RateLimiter
 {
 
     public class TestBench

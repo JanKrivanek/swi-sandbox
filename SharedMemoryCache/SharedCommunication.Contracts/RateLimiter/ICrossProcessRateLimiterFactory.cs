@@ -1,7 +1,7 @@
 ﻿using System;
-using SharedCommunication.Contracts.RateLimiter;
+using SolarWinds.SharedCommunication.Contracts.RateLimiter;
 
-namespace SharedCommunication.Contracts.RateLimiter
+namespace SolarWinds.SharedCommunication.Contracts.RateLimiter
 {
     public interface ICrossProcessRateLimiterFactory
     {

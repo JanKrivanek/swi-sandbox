@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Contracts for x-process caching and rate limiting prototype</Description>
+    <PackageId>SolarWinds.SharedCommunication.Contracts</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>SolarWinds Worldwide, LLC.</Authors>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Copyright>Copyright © 1999-2020 SolarWinds Worldwide, LLC. All Rights Reserved.</Copyright>
+    <PackageTags>SolarWinds package SharedCommunication</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataCache\" />
+	 <Folder Include="RateLimiter\" />
+	  <Folder Include="Utils\" />
+  </ItemGroup>
+
+
+</Project>

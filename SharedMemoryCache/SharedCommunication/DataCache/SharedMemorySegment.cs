@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Security.AccessControl;
 using System.Text;
 
-namespace SharedCommunication.DataCache
+namespace SolarWinds.SharedCommunication.DataCache
 {
     public class SharedMemorySegment : ISharedMemorySegment
     {

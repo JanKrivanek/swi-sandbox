@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SharedCommunication.Contracts.Utils
+namespace SolarWinds.SharedCommunication.Contracts.Utils
 {
     public interface IAsyncSemaphore : IDisposable
     {

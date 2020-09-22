@@ -2,9 +2,9 @@
 using System.Security.Principal;
 using System.Threading;
 using SolarWinds.Coding.Utils.Logger;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.Utils
+namespace SolarWinds.SharedCommunication.Utils
 {
     public class AsyncSemaphoreFactory : IAsyncSemaphoreFactory
     {

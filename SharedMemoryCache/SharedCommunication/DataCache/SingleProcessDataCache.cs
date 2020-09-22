@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SharedCommunication.Contracts.DataCache;
-using SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Contracts.DataCache;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 
-namespace SharedCommunication.DataCache
+namespace SolarWinds.SharedCommunication.DataCache
 {
     public class SingleProcessDataCache<T> : IDataCache<T> where T : ICacheEntry
     {

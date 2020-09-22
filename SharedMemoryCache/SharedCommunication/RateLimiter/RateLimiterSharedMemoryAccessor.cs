@@ -4,7 +4,7 @@ using System.IO.MemoryMappedFiles;
 using System.Security.AccessControl;
 using System.Threading;
 
-namespace SharedCommunication.RateLimiter
+namespace SolarWinds.SharedCommunication.RateLimiter
 {
     internal class RateLimiterSharedMemoryAccessor : IRateLimiterDataAccessor
     {
