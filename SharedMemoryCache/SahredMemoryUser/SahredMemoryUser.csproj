@@ -79,11 +79,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">
+    <ProjectReference Include="..\SolarWinds.SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">
       <Project>{3a04c605-fad2-4ba0-a010-e166b1727b78}</Project>
       <Name>SolarWinds.SharedCommunication.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharedCommunication\SolarWinds.SharedCommunication.csproj">
+    <ProjectReference Include="..\SolarWinds.SharedCommunication\SolarWinds.SharedCommunication.csproj">
       <Project>{bab245c5-aa41-415b-8c0f-c71c012b897d}</Project>
       <Name>SolarWinds.SharedCommunication</Name>
     </ProjectReference>

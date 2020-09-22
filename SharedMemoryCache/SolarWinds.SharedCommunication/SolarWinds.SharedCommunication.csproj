@@ -91,7 +91,7 @@
     <Compile Include="Utils\AsyncSemaphoreFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">
+    <ProjectReference Include="..\SolarWinds.SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">
       <Project>{3a04c605-fad2-4ba0-a010-e166b1727b78}</Project>
       <Name>SolarWinds.SharedCommunication.Contracts</Name>
     </ProjectReference>
