@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>SolarWinds.SharedCommunication</id>
+    <version>1.0.0</version>
+    <title>SolarWinds.SharedCommunication</title>
+    <authors>SolarWinds Worldwide, LLC.</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>x-process caching and rate limiting prototype</description>
+    <releaseNotes>Initial prototype version</releaseNotes>
+    <copyright>Copyright © 1999-2020 SolarWinds Worldwide, LLC. All Rights Reserved.</copyright>
+    <tags>SolarWinds package SharedCommunication</tags>
+  </metadata>
+</package>
