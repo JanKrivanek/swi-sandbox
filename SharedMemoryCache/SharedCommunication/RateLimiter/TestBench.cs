@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SharedCommunication.Contracts.RateLimiter;
 using SharedCommunication.Utils;
+using System.Security.Cryptography;
 
 namespace SharedCommunication.RateLimiter
 {
@@ -16,8 +17,21 @@ namespace SharedCommunication.RateLimiter
     {
         public void RunTest()
         {
+            string apiBaseAddress = "https://meraki123/api/v2";
             string apiKey = "15151v2cv1"; //+org id
-            string id = apiKey;//"https://meraki123/api";
+            string orgId = null;
+            string uniqueIdentity = apiBaseAddress + "_" + apiKey + (orgId == null ? null : ("_" + orgId));
+            //it's better to randomize salt; on the other hand we must get consistent result across processes
+            // so some common schema must be used. No salting might be acceptable as well - the identity
+            // should be long and random enough to prevent against hashed dictionary attack.
+            string salt = "xyzabc";
+
+            //now hash to prevent info leaking
+            var hashAlgo = new SHA256Managed();
+            var hash = hashAlgo.ComputeHash(Encoding.UTF8.GetBytes(uniqueIdentity + salt));
+            //this can now be used as identity of shared handles (memory mapped files etc.)
+            string id = Convert.ToBase64String(hash);
+
 
             CrossProcessRateLimiterFactory f = new CrossProcessRateLimiterFactory(new PlatformDateTime());
 
