@@ -8,7 +8,7 @@ using SolarWinds.SharedCommunication.Contracts.Utils;
 
 namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
-    internal class DataCacheServiceClient<T> : IDataCache<T> where T : ICacheEntry
+    internal class DataCacheServiceClient<T> : IDataCache<T> //where T : ICacheEntry
     {
         private readonly PollerDataCacheClient _cacheClient = new PollerDataCacheClient();
         //TODO: this must be done differently - different types have different ttl (e.g. topology has longer polling interval)

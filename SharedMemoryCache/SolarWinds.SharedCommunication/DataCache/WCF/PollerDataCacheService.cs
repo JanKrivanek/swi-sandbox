@@ -19,5 +19,10 @@ namespace SolarWinds.SharedCommunication.DataCache.WCF
             _service = new ServiceHost(this);
             _service.Open();
         }
+
+        public void Shutdown()
+        {
+            _service.Close();
+        }
     }
 }

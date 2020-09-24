@@ -30,6 +30,8 @@ namespace SahredMemoryUser
 
 
             Console.ReadKey();
+            Console.WriteLine("RETURN");
+            return;
 
             var logger = new SolarWindsLogAdapter(typeof(Program)); //new DevNullLogAdapter()
             AsyncSemaphoreFactory factory = new AsyncSemaphoreFactory(logger);
@@ -79,19 +81,22 @@ namespace SahredMemoryUser
 
             try
             {
-                DataCacheServiceClientFactory<StringCacheEntry> fac =
-                    new DataCacheServiceClientFactory<StringCacheEntry>(
+                DataCacheServiceClientFactory<string> fac =
+                    new DataCacheServiceClientFactory<string>(
                         new AsyncSemaphoreFactory(new SolarWindsLogAdapter(typeof(Program))));
 
                 var cache = fac.CreateCache("HwH_meraki.com_apikey_orgKey", TimeSpan.FromMinutes(5));
 
-                var res1 = await cache.GetData(() => Task.FromResult((StringCacheEntry)"fdfdfdfd"));
+                var res1 = await cache.GetData(() => Task.FromResult((string)"fdfdfdfd"));
+                Console.WriteLine("res1:" + res1);
 
-                var res2 = await cache.GetData(() => Task.FromResult((StringCacheEntry)"ggfgfgfgfgf"));
+                var res2 = await cache.GetData(() => Task.FromResult((string)"ggfgfgfgfgf"));
+                Console.WriteLine("res2:" + res2);
 
                 await Task.Delay(TimeSpan.FromSeconds(2));
 
-                var res3 = await cache.GetData(() => Task.FromResult((StringCacheEntry)"123456"));
+                var res3 = await cache.GetData(() => Task.FromResult((string)"123456"));
+                Console.WriteLine("res3:" + res3);
             }
             catch (Exception e)
             {

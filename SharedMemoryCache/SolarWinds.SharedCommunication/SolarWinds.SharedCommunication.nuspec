@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SolarWinds.SharedCommunication</id>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
     <title>SolarWinds.SharedCommunication</title>
     <authors>SolarWinds Worldwide, LLC.</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

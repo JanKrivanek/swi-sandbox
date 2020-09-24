@@ -4,7 +4,7 @@ using SolarWinds.SharedCommunication.Contracts.Utils;
 
 namespace SolarWinds.SharedCommunication.DataCache.WCF
 {
-    public class DataCacheServiceClientFactory<T> where T : CacheEntryBase
+    public class DataCacheServiceClientFactory<T> //where T : CacheEntryBase
     {
         private readonly PollerDataCacheClient _cacheClient = new PollerDataCacheClient();
         private readonly IAsyncSemaphoreFactory _semaphoreFactory;
