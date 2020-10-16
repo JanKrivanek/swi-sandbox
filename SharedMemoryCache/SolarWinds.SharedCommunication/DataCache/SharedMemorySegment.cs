@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.AccessControl;
 using System.Text;
+using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.DataCache
 {
@@ -32,10 +33,7 @@ namespace SolarWinds.SharedCommunication.DataCache
 
         public SharedMemorySegment(string segmentName)
         {
-            //TODO: we should create it in global namespace; but for non-admin processes this
-            // doesn't fail but rather blocks until somebody else creates the segment
-            // So we need to check the privileges first
-            _segmentName = /*@"Global\" +*/segmentName;
+            _segmentName = PrivilegesChecker.KernelObjectsPrefix + segmentName;
             _contnetSegmentNamePreffix = _segmentName + "_content_";
 
             var security = new MemoryMappedFileSecurity();

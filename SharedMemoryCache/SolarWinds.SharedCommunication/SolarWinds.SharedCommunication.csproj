@@ -89,6 +89,7 @@
     <Compile Include="RateLimiter\RingMemoryBufferRateLimiter.cs" />
     <Compile Include="Utils\AsyncSemaphore.cs" />
     <Compile Include="Utils\AsyncSemaphoreFactory.cs" />
+    <Compile Include="Utils\PrivilegesChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SolarWinds.SharedCommunication.Contracts\SolarWinds.SharedCommunication.Contracts.csproj">

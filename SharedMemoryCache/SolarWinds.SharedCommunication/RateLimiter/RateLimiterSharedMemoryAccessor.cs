@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Security.AccessControl;
 using System.Threading;
+using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.RateLimiter
 {
@@ -29,7 +30,7 @@ namespace SolarWinds.SharedCommunication.RateLimiter
         {
             //TODO: should acquire mutext (or better just the write latch)
 
-            //segmentName = @"Global\" + segmentName;
+            segmentName = PrivilegesChecker.KernelObjectsPrefix + segmentName;
 
             //this would be preventing code 
             var security = new MemoryMappedFileSecurity();

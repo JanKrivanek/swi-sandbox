@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SolarWinds.SharedCommunication.Contracts.DataCache;
 using SolarWinds.SharedCommunication.Contracts.Utils;
+using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.DataCache
 {
@@ -22,8 +23,7 @@ namespace SolarWinds.SharedCommunication.DataCache
 
         public SharedMemoryDataCache(string cacheName, TimeSpan ttl, IDateTime dateTime, IAsyncSemaphoreFactory semaphoreFactory)
         {
-            //TODO: to be added to run properly accross sessions
-            //cacheName = @"Global\" + cacheName;
+            cacheName = PrivilegesChecker.KernelObjectsPrefix + cacheName;
 
             _asyncSemaphore = semaphoreFactory.Create(cacheName + "_MTX");
             _memorySegment = new SharedMemorySegment(cacheName + "_MMF");
