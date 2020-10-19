@@ -16,17 +16,23 @@ namespace SolarWinds.SharedCommunication.DataCache
         private readonly TimeSpan _ttl;
         private readonly IDateTime _dateTime;
 
-        public SharedMemoryDataCache(DataCacheSettings settings, IDateTime dateTime,
-            IAsyncSemaphoreFactory semaphoreFactory)
-            : this(settings.CacheName, settings.Ttl, dateTime, semaphoreFactory)
+        public SharedMemoryDataCache(
+            DataCacheSettings settings, 
+            IDateTime dateTime,
+            IAsyncSemaphoreFactory semaphoreFactory,
+            IKernelObjectsPrivilegesChecker kernelObjectsPrivilegesChecker)
+            : this(settings.CacheName, settings.Ttl, dateTime, semaphoreFactory, kernelObjectsPrivilegesChecker)
         {  }
 
-        public SharedMemoryDataCache(string cacheName, TimeSpan ttl, IDateTime dateTime, IAsyncSemaphoreFactory semaphoreFactory)
+        public SharedMemoryDataCache(
+            string cacheName, 
+            TimeSpan ttl, 
+            IDateTime dateTime, 
+            IAsyncSemaphoreFactory semaphoreFactory,
+            IKernelObjectsPrivilegesChecker kernelObjectsPrivilegesChecker)
         {
-            cacheName = PrivilegesChecker.KernelObjectsPrefix + cacheName;
-
-            _asyncSemaphore = semaphoreFactory.Create(cacheName + "_MTX");
-            _memorySegment = new SharedMemorySegment(cacheName + "_MMF");
+            _asyncSemaphore = semaphoreFactory.Create(cacheName + "_MTX", kernelObjectsPrivilegesChecker);
+            _memorySegment = new SharedMemorySegment(cacheName + "_MMF", kernelObjectsPrivilegesChecker);
             _ttl = ttl;
             _dateTime = dateTime;
         }

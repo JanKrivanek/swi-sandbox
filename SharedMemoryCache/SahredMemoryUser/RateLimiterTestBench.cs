@@ -8,32 +8,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using SolarWinds.SharedCommunication.Contracts.RateLimiter;
 using System.Security.Cryptography;
+using SolarWinds.Coding.Utils.Windows.Logger;
+using SolarWinds.Logging;
 using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.RateLimiter
 {
 
-    public class TestBench
+    public class RateLimiterTestBench
     {
         public void RunTest()
         {
             string apiBaseAddress = "https://meraki123/api/v2";
             string apiKey = "15151v2cv1"; //+org id
             string orgId = null;
-            string uniqueIdentity = apiBaseAddress + "_" + apiKey + (orgId == null ? null : ("_" + orgId));
-            //it's better to randomize salt; on the other hand we must get consistent result across processes
-            // so some common schema must be used. No salting might be acceptable as well - the identity
-            // should be long and random enough to prevent against hashed dictionary attack.
-            string salt = "xyzabc";
 
-            //now hash to prevent info leaking
-            var hashAlgo = new SHA256Managed();
-            var hash = hashAlgo.ComputeHash(Encoding.UTF8.GetBytes(uniqueIdentity + salt));
-            //this can now be used as identity of shared handles (memory mapped files etc.)
-            string id = Convert.ToBase64String(hash);
+            string id = new SynchronizationIdentifiersProvider().GetSynchronizationIdentifier(apiBaseAddress, apiKey,
+                orgId);
 
-
-            CrossProcessRateLimiterFactory f = new CrossProcessRateLimiterFactory(new PlatformDateTime());
+            CrossProcessRateLimiterFactory f = new CrossProcessRateLimiterFactory(new PlatformDateTime(),
+                new KernelObjectsPrivilegesChecker(new SolarWindsLogAdapter(this.GetType())));
 
 
             int workersCount = 8;

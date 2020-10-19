@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.AccessControl;
 using System.Text;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.DataCache
@@ -31,9 +32,9 @@ namespace SolarWinds.SharedCommunication.DataCache
         private readonly string _segmentName;
         private readonly string _contnetSegmentNamePreffix;
 
-        public SharedMemorySegment(string segmentName)
+        public SharedMemorySegment(string segmentName, IKernelObjectsPrivilegesChecker kernelObjectsPrivilegesChecker)
         {
-            _segmentName = PrivilegesChecker.KernelObjectsPrefix + segmentName;
+            _segmentName = kernelObjectsPrivilegesChecker.KernelObjectsPrefix + segmentName;
             _contnetSegmentNamePreffix = _segmentName + "_content_";
 
             var security = new MemoryMappedFileSecurity();

@@ -17,7 +17,7 @@ using SolarWinds.SharedCommunication.Utils;
 using SolarWinds.Coding.Utils.Logger;
 using SolarWinds.Coding.Utils.Windows.Logger;
 
-namespace SahredMemoryUser
+namespace SharedMemoryUser
 {
 
     
@@ -26,41 +26,31 @@ namespace SahredMemoryUser
     {
         static async Task Main(string[] args)
         {
-            WcfConsumer.Run();
-
-
+            Console.WriteLine("WcfConsumer test will run on keypress (do not forget to start the server endpoint via SharedMemoryProvider project)");
             Console.ReadKey();
-            Console.WriteLine("RETURN");
+
+            WcfConsumerCacheTest();
+
+            Console.WriteLine("WcfConsumer test done");
+            Console.WriteLine("RateLimiter test will run on keypress");
+            Console.ReadKey();
+
+
+            Console.WriteLine("RateLimiter test done");
+            Console.WriteLine("Will exit on keypress");
+            Console.ReadKey();
+
             return;
+        }
 
-            var logger = new SolarWindsLogAdapter(typeof(Program)); //new DevNullLogAdapter()
-            AsyncSemaphoreFactory factory = new AsyncSemaphoreFactory(logger);
+        static void RateLimiterTest()
+        {
+            new RateLimiterTestBench().RunTest();
+        }
 
-            IAsyncSemaphore a = factory.Create(@"Global\BB");
-            a.WaitAsync().Wait();
-            a.Release();
-
-            {
-                IAsyncSemaphore b = factory.Create("BB");
-                a.WaitAsync().Wait();
-            }
-
-            CancellationTokenSource cts = new CancellationTokenSource(5000);
-            a.WaitAsync().Wait(cts.Token);
-
-            a.Dispose();
-
-            //TestBench tb = new TestBench();
-            //tb.RunTest();
-
-            //new MMFTests().Run();
-
-            //new TestRate().RunTest();
-
-            //new Test().Run();
-            //new Test().Run();
-
-            
+        static void WcfConsumerCacheTest()
+        {
+            WcfConsumer.Run();
         }
     }
 
@@ -68,17 +58,6 @@ namespace SahredMemoryUser
     {
         public static async Task Run()
         {
-            //PollerDataCacheClient cl = new PollerDataCacheClient();
-            //string key = "fff";
-            //var v1 = cl.GetDataCacheEntry(key, TimeSpan.MaxValue);
-
-            //cl.SetDataCacheEntry(key, TimeSpan.FromSeconds(50), new SerializedCacheEntry(new byte[]{2,4,6}));
-            //var v2 = cl.GetDataCacheEntry(key);
-
-            //cl.SetDataCacheEntry(key, TimeSpan.Zero, null);
-
-            //var v3 = cl.GetDataCacheEntry(key);
-
             try
             {
                 DataCacheServiceClientFactory<string> fac =

@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Security.AccessControl;
 using System.Threading;
+using SolarWinds.SharedCommunication.Contracts.Utils;
 using SolarWinds.SharedCommunication.Utils;
 
 namespace SolarWinds.SharedCommunication.RateLimiter
@@ -26,11 +27,15 @@ namespace SolarWinds.SharedCommunication.RateLimiter
         //we need the raw pointer for CAS operations
         private readonly IntPtr _latchAddress;
 
-        public RateLimiterSharedMemoryAccessor(string segmentName, int capacity, long spanTicks)
+        public RateLimiterSharedMemoryAccessor(
+            string segmentName, 
+            int capacity, 
+            long spanTicks, 
+            IKernelObjectsPrivilegesChecker privilegesChecker)
         {
             //TODO: should acquire mutext (or better just the write latch)
 
-            segmentName = PrivilegesChecker.KernelObjectsPrefix + segmentName;
+            segmentName = privilegesChecker.KernelObjectsPrefix + segmentName;
 
             //this would be preventing code 
             var security = new MemoryMappedFileSecurity();

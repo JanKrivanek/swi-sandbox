@@ -17,10 +17,17 @@ namespace SolarWinds.SharedCommunication.Utils
 
         public IAsyncSemaphore Create(string name)
         {
+            return this.Create(name, KernelObjectsPrivilegesChecker.GetInstance(_logger));
+        }
+
+        public IAsyncSemaphore Create(string name, IKernelObjectsPrivilegesChecker kernelObjectsPrivilegesChecker)
+        {
             var allowEveryoneRule = new SemaphoreAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
                 SemaphoreRights.FullControl, AccessControlType.Allow);
             SemaphoreSecurity securitySettings = new SemaphoreSecurity();
             securitySettings.AddAccessRule(allowEveryoneRule);
+
+            name = kernelObjectsPrivilegesChecker.KernelObjectsPrefix + name;
 
             bool createdNew;
             Semaphore sp = new Semaphore(1, 1, name, out createdNew, securitySettings);

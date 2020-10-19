@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SahredMemoryUser", "SahredMemoryUser\SahredMemoryUser.csproj", "{CC27A62A-6DE5-476F-99E1-60166F5954BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedMemoryUser", "SahredMemoryUser\SharedMemoryUser.csproj", "{CC27A62A-6DE5-476F-99E1-60166F5954BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWinds.SharedCommunication", "SolarWinds.SharedCommunication\SolarWinds.SharedCommunication.csproj", "{BAB245C5-AA41-415B-8C0F-C71C012B897D}"
 EndProject
